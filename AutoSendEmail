@@ -1,0 +1,45 @@
+Public Sub AutoSendEmail()
+
+'Enviar e-mail informando sobre a criação da proposta
+Dim OutApp As Object
+Dim OutMail As Object
+Dim texto, dest As String
+
+Dim Validar As Boolean
+
+Set OutApp = CreateObject("Outlook.Application")
+Set OutMail = OutApp.CreateItem(0)
+
+texto = "TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT"
+    
+Dim n As Integer
+n = 2
+    
+dest = ""
+    
+For i = 0 To Me.ListBox1.ListCount - 1
+    If Me.ListBox1.Selected(i) Then
+        dest = dest & ";" & Me.ListBox1.List(i, 1)
+    End If
+Next i
+    
+With OutMail
+    .To = dest
+    .CC = ""
+    .BCC = ""
+    .Subject = "SUBJECT"
+    .Body = texto
+    If (Me.OptionButton1.Value = True) And (Me.OptionButton2.Value = False) Then
+        Validar = True
+        .Display
+    Else
+        Validar = False
+        .Send
+    End If
+End With
+On Error GoTo 0
+
+Set OutMail = Nothing
+Set OutApp = Nothing
+
+End Sub
